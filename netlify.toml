@@ -1,0 +1,29 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+``` ````
+
+````text
+// filepath: c:\Users\adris\OneDrive\Documentos\form-to-do\FORM-TO-DO\public\_redirects
+/* /index.html 200
+``` ````
+
+````json
+// filepath: c:\Users\adris\OneDrive\Documentos\form-to-do\FORM-TO-DO\db.json
+{
+  "tasks": []
+}
+``` ````
+
+Notas rápidas:
+- En Netlify configura: Build command = npm run build, Publish directory = dist (o usa netlify.toml arriba).
+- json-server (script "server") solo funciona localmente; para producción debe usar una API alojada (Heroku, Railway, Vercel, etc.) o reemplazar por una solución serverless.
+- Si quieres, aplico estos archivos al proyecto o preparo un PR/diff.Notas rápidas:
+- En Netlify configura: Build command = npm run build, Publish directory = dist (o usa netlify.toml arriba).
+- json-server (script "server") solo funciona localmente; para producción debe usar una API alojada (Heroku, Railway, Vercel, etc.) o reemplazar por una solución serverless.
+- Si quieres, aplico estos archivos al proyecto o preparo un PR/diff.
