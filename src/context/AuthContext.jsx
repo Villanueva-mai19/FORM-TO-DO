@@ -1,15 +1,18 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { getUsers, createUser, findUserByName } from "../api";
+import { createUser, findUserByName } from "../api/Index.jsx";
 
-const AuthContext = createContext();
+// eslint-disable-next-line react-refresh/only-export-components
+export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const raw = localStorage.getItem("auth_user");
-    if (raw) setUser(JSON.parse(raw));
+    if (typeof window !== 'undefined') {
+      const raw = localStorage.getItem("auth_user");
+      if (raw) setUser(JSON.parse(raw));
+    }
   }, []);
 
   const login = async (name, password, navigate) => {
@@ -36,7 +39,9 @@ export function AuthProvider({ children }) {
           return;
         }
         setUser(existing);
-        localStorage.setItem("auth_user", JSON.stringify(existing));
+        if (typeof window !== 'undefined') {
+          localStorage.setItem("auth_user", JSON.stringify(existing));
+        }
         toast.success(`Bienvenido ${cleanName}`);
         if (navigate) navigate("/");
       } else {
@@ -44,7 +49,9 @@ export function AuthProvider({ children }) {
         const newUser = { name: cleanName, password: cleanPassword };
         const created = await createUser(newUser);
         setUser(created);
-        localStorage.setItem("auth_user", JSON.stringify(created));
+        if (typeof window !== 'undefined') {
+          localStorage.setItem("auth_user", JSON.stringify(created));
+        }
         toast.success(`Usuario creado: ${cleanName}`);
         if (navigate) navigate("/");
       }
@@ -56,7 +63,9 @@ export function AuthProvider({ children }) {
 
   const logout = (navigate) => {
     setUser(null);
-    localStorage.removeItem("auth_user");
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem("auth_user");
+    }
     toast.info("Session closed");
     if (navigate) navigate("/login");
   };
@@ -68,6 +77,3 @@ export function AuthProvider({ children }) {
   );
 }
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
